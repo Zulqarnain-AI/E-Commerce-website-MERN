@@ -14,7 +14,7 @@ const Navbar = () => {
         <input
           type="text"
           placeholder="Search products..."
-          className="hidden md:block border rounded px-3 py-1 w-64"
+          className=" border rounded px-3 py-1 w-64"
         />
 
         {/* Links */}

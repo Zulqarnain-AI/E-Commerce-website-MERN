@@ -1,11 +1,16 @@
-const categories = [
+import { useNavigate } from "react-router-dom";
+
+const Categories = () => {
+  const navigate = useNavigate()
+  const categories = [
   "Electronics",
   "Fashion",
   "Home Appliances",
   "Accessories",
 ];
-
-const Categories = () => {
+const handleClick=(cate)=>{
+navigate(`/products/${cate}`)
+}
   return (
     <div className="max-w-7xl mx-auto px-4 py-12">
       <h2 className="text-2xl font-bold mb-6">Categories</h2>
@@ -15,6 +20,7 @@ const Categories = () => {
           <div
             key={index}
             className="border rounded-lg p-6 text-center hover:bg-black hover:text-white cursor-pointer transition"
+            onClick={()=>handleClick(cat)}
           >
             {cat}
           </div>

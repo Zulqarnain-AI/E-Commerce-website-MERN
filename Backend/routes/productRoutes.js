@@ -5,12 +5,16 @@ const router = express.Router();
 
 // GET FEATURED PRODUCTS
 router.get("/", async (req, res) => {
-  const featured = req.query.featured === "true";
+  const { category, maxPrice, keyword } = req.query;
 
-  const products = featured
-    ? await Product.find({ isFeatured: true })
-    : await Product.find();
+  let query = {};
 
+  if (category) query.category = category;
+  if (maxPrice) query.price = { $lte: maxPrice };
+  if (keyword)
+    query.name = { $regex: keyword, $options: "i" };
+
+  const products = await Product.find(query);
   res.json(products);
 });
 

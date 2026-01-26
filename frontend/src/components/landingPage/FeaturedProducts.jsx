@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import headphone from './images/headphon.jfif'
 const FeaturedProducts = () => {
   const [products, setProducts] = useState([]);
 
@@ -26,9 +25,9 @@ const FeaturedProducts = () => {
             className="border rounded-lg p-4 shadow hover:shadow-lg"
           >
             <img
-              src={headphone}
+              src={product.image}
               alt={product.name}
-              className="h-40 w-full object-cover rounded"
+              className="h-60 w-full object-cover rounded"
             />
             <h3 className="mt-2 font-semibold">{product.name}</h3>
             <p className="text-gray-600">${product.price}</p>
