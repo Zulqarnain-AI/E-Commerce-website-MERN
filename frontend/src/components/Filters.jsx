@@ -1,5 +1,6 @@
 const Filters = ({ category, setCategory, price, setPrice }) => {
-    
+  const allCategories = ["All", "Electronics", "Fashion", "Home Appliances", "Accessories"];
+
   return (
     <div className="bg-white p-4 rounded-lg shadow">
 
@@ -15,13 +16,12 @@ const Filters = ({ category, setCategory, price, setPrice }) => {
           onChange={(e) => setCategory(e.target.value)}
           className="w-full border rounded px-2 py-1"
         >
-          <option value="">{category}</option>
-          <option value="">All</option>
-          <option value="Electronics">Electronics</option>
-          <option value="Fashion">Fashion</option>
-          <option value="Home Appliances">Home Appliances</option>
-          <option value="Home Appliances">Accessories</option>
-
+          {/* Map through ALL categories once. No 'if' or 'filter' needed here. */}
+          {allCategories.map((cat) => (
+            <option key={cat} value={cat}>
+              {cat}
+            </option>
+          ))}
         </select>
       </div>
 

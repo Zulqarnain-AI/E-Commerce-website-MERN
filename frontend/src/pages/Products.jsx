@@ -1,17 +1,16 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import Navbar from "../landingPage/Navbar";
-import Footer from "../landingPage/Footer";
-import ProductCard from "./ProductCard";
-import Filters from "./Filters";
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
+import ProductCard from "../components/ProductCard";
+import Filters from "../components/Filters";
 import { useParams } from "react-router-dom";
 const Products = () => {
   const [products, setProducts] = useState([]);
-  const [category, setCategory] = useState("");
   const [price, setPrice] = useState(1000);
   const [search, setSearch] = useState("");
   const {cate} = useParams();
-
+  const [category, setCategory] = useState(cate);
   useEffect(() => {
     const fetchProducts = async () => {
       const { data } = await axios.get(
@@ -25,7 +24,7 @@ const Products = () => {
         }
       );
       setProducts(data);
-      setCategory(cate)
+      // setCategory(cate)
     };
 
     fetchProducts();

@@ -17,5 +17,21 @@ router.get("/", async (req, res) => {
   const products = await Product.find(query);
   res.json(products);
 });
+// GET SINGLE PRODUCT
+router.get("/:id", async (req, res) => {
+  try {
+    const product = await Product.findById(req.params.id).select(
+      "-image.data"
+    );
+
+    if (!product) {
+      return res.status(404).json({ message: "Product not found" });
+    }
+
+    res.json(product);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
 
 export default router;

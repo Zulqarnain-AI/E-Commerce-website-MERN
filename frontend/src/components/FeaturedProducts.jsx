@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { useCart } from "../context/CartContext";
+
 const FeaturedProducts = () => {
   const [products, setProducts] = useState([]);
+  const { addToCart } = useCart();
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -9,7 +12,6 @@ const FeaturedProducts = () => {
         "http://localhost:5000/api/products?featured=true"
       );
       setProducts(data);
-      console.log(data)
     };
     fetchProducts();
   }, []);
@@ -32,9 +34,13 @@ const FeaturedProducts = () => {
             <h3 className="mt-2 font-semibold">{product.name}</h3>
             <p className="text-gray-600">${product.price}</p>
 
-            <button className="mt-3 w-full bg-black text-white py-2 rounded">
+            <button
+              onClick={() => addToCart(product, 1)}
+              className="mt-3 w-full bg-black text-white py-2 rounded"
+            >
               Add to Cart
             </button>
+
           </div>
         ))}
       </div>
