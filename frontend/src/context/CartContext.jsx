@@ -14,16 +14,12 @@ export const CartProvider = ({ children }) => {
 
   // ADD TO CART
   const addToCart = (product, qty) => {
-    const existItem = cartItems.find(
-      (item) => item._id === product._id
-    );
+    const existItem = cartItems.find((item) => item._id === product._id);
 
     if (existItem) {
       setCartItems(
         cartItems.map((item) =>
-          item._id === product._id
-            ? { ...item, qty: item.qty + qty }
-            : item
+          item._id === product._id ? { ...item, qty: item.qty + qty } : item
         )
       );
     } else {
@@ -39,15 +35,18 @@ export const CartProvider = ({ children }) => {
   // UPDATE QTY
   const updateQty = (id, qty) => {
     setCartItems(
-      cartItems.map((item) =>
-        item._id === id ? { ...item, qty } : item
-      )
+      cartItems.map((item) => (item._id === id ? { ...item, qty } : item))
     );
+  };
+
+  // ✅ CLEAR CART
+  const clearCart = () => {
+    setCartItems([]);
   };
 
   return (
     <CartContext.Provider
-      value={{ cartItems, addToCart, removeFromCart, updateQty }}
+      value={{ cartItems, addToCart, removeFromCart, updateQty, clearCart }} // ✅ added here
     >
       {children}
     </CartContext.Provider>

@@ -6,7 +6,6 @@ const Filters = ({ category, setCategory, price, setPrice }) => {
 
       <h3 className="font-bold mb-4">Filters</h3>
 
-      {/* Category */}
       <div className="mb-4">
         <label className="block text-sm font-medium mb-1">
           Category
@@ -16,7 +15,6 @@ const Filters = ({ category, setCategory, price, setPrice }) => {
           onChange={(e) => setCategory(e.target.value)}
           className="w-full border rounded px-2 py-1"
         >
-          {/* Map through ALL categories once. No 'if' or 'filter' needed here. */}
           {allCategories.map((cat) => (
             <option key={cat} value={cat}>
               {cat}
@@ -25,7 +23,6 @@ const Filters = ({ category, setCategory, price, setPrice }) => {
         </select>
       </div>
 
-      {/* Price */}
       <div>
         <label className="block text-sm font-medium mb-1">
           Max Price

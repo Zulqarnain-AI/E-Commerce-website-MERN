@@ -2,10 +2,11 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { useCart } from "../context/CartContext";
 import CartItem from "../components/CartItem";
-import { Link } from "react-router-dom";
+import { Link,useNavigate } from "react-router-dom";
 
 const Cart = () => {
   const { cartItems } = useCart();
+  const navigate = useNavigate();
 
   const total = cartItems.reduce(
     (sum, item) => sum + item.price * item.qty,
@@ -14,9 +15,14 @@ const Cart = () => {
 
   return (
     <>
-      <Navbar />
+    <div className="relative">
+      <div className='fixed top-0 left-0 w-full '>
 
-      <div className="max-w-7xl mx-auto px-4 py-10">
+      <Navbar  />
+      </div>
+
+
+      <div className="min-h-screen max-w-7xl mx-auto px-4 py-10">
         <h1 className="text-2xl font-bold mb-6">Shopping Cart</h1>
 
         {cartItems.length === 0 ? (
@@ -44,15 +50,19 @@ const Cart = () => {
                 Total: ${total.toFixed(2)}
               </p>
 
-              <button className="mt-4 w-full bg-black text-white py-3 rounded">
-                Proceed to Checkout
-              </button>
+              <button
+              onClick={() => navigate("/checkout")}
+              className="bg-black text-white px-6 py-3 rounded"
+            >
+              Proceed to Checkout
+            </button>
             </div>
           </div>
         )}
       </div>
 
-      <Footer />
+      <Footer className="" />
+    </div>
     </>
   );
 };
