@@ -19,6 +19,7 @@ export const createOrder = async (req, res) => {
     const sanitizedOrderItems = orderItems.map((item) => ({
       product: new mongoose.Types.ObjectId(item._id),
       name: item.name,
+      image: item.image,
       price: item.price,
       qty: item.qty,
     }));
@@ -43,5 +44,28 @@ export const createOrder = async (req, res) => {
       success: false,
       message: error.message,
     });
+  }
+};
+export const getOrderById = async (req, res) => {
+  try {
+    const order = await Order.findById(req.params.id);
+
+    if (!order) {
+      return res.status(404).json({ message: "Order not found" });
+    }
+
+    res.json(order);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+export const getAllOrders = async (req, res) => {
+  try {
+    const orders = await Order.find({})
+      .sort({ createdAt: -1 });
+
+    res.json(orders);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
 };

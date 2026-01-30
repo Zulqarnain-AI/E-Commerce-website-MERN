@@ -22,6 +22,9 @@ const Navbar = () => {
 
         {/* Links */}
         <div className="flex items-center gap-4">
+          <Link to="/admin/orders" className="hover:underline">
+            Admin
+          </Link>
           <Link to="/cart" className="relative">
             Cart 🛒
             {cartItems.length > 0 && (

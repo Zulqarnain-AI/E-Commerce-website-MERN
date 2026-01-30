@@ -10,6 +10,8 @@ import Cart from './pages/Cart'
 import CheckoutPage from './pages/CheckoutPage'
 import PlaceOrderPage from './pages/PlaceOrderPage'
 import OrderSuccessPage from './pages/OrderSuccessPage'
+import OrderDetails from './pages/OrderDetails'
+import AdminOrders from './pages/AdminOrders'
 
 function App() {
 
@@ -24,6 +26,10 @@ function App() {
         <Route path="/checkout" element={<CheckoutPage />} />
         <Route path="/placeorder" element={<PlaceOrderPage />} />
         <Route path="/order-success/:id" element={<OrderSuccessPage />} />
+        <Route path="/order/:id" element={<OrderDetails />} />
+        <Route path="/admin/orders" element={<AdminOrders />} />
+
+
 
 
       </Routes>
