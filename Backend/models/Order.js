@@ -27,7 +27,22 @@ const orderSchema = new mongoose.Schema(
     itemsPrice: Number,
     shippingPrice: Number,
     totalPrice: Number,
+    //for order status
+    isPaid: {
+      type: Boolean,
+      default: false,
+    },
+    paidAt: Date,
+
+    isDelivered: {
+      type: Boolean,
+      default: false,
+    },
+    deliveredAt: Date,
+  
   },
+
+  
   { timestamps: true }
 );
 

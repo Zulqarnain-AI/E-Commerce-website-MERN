@@ -25,12 +25,11 @@ const OrderSuccess = () => {
 
           <div className="flex flex-col gap-3">
             <Link
-              to={`/order/${id}`}
+              to={`/order/user/${id}`}
               className="bg-black text-white py-2 rounded"
-            >
+            user="customer">
               View Order Details
             </Link>
-
             <Link
               to="/products/All"
               className="border py-2 rounded"

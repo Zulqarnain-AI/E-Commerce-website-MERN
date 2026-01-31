@@ -65,16 +65,27 @@ const AdminOrders = () => {
                     </td>
 
                     <td className="p-3 border">
-                      <span className="px-2 py-1 bg-yellow-100 text-yellow-700 rounded text-sm">
-                        Pending
-                      </span>
+                      {order.isDelivered ? (
+                        <span className="px-2 py-1 bg-green-100 text-green-700 rounded text-sm">
+                          Delivered
+                        </span>
+                      ) : order.isPaid ? (
+                        <span className="px-2 py-1 bg-blue-100 text-blue-700 rounded text-sm">
+                          Paid
+                        </span>
+                      ) : (
+                        <span className="px-2 py-1 bg-yellow-100 text-yellow-700 rounded text-sm">
+                          Pending
+                        </span>
+                      )}
                     </td>
+
 
                     <td className="p-3 border">
                       <Link
-                        to={`/order/${order._id}`}
-                        className="text-blue-600 underline"
-                      >
+                        to={`/order/admin/${order._id}`}
+                        
+                        className="text-blue-600 underline">
                         View
                       </Link>
                     </td>

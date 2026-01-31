@@ -26,7 +26,8 @@ function App() {
         <Route path="/checkout" element={<CheckoutPage />} />
         <Route path="/placeorder" element={<PlaceOrderPage />} />
         <Route path="/order-success/:id" element={<OrderSuccessPage />} />
-        <Route path="/order/:id" element={<OrderDetails />} />
+        <Route path="/order/user/:id" element={<OrderDetails admin={false}/>} />
+        <Route path="/order/admin/:id" element={<OrderDetails admin={true}/>} />
         <Route path="/admin/orders" element={<AdminOrders />} />
 
 
