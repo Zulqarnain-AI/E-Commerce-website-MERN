@@ -1,54 +1,114 @@
-import { useState } from 'react'
-import { Routes, Route } from 'react-router-dom'
-import Products from './pages/Products'
-// import reactLogo from './assets/react.svg'
-// import viteLogo from '/vite.svg'
-import './App.css'
-import Home from './pages/Home'
-import ProductDetail from './pages/ProductDetail'
-import Cart from './pages/Cart'
-import CheckoutPage from './pages/CheckoutPage'
-import PlaceOrderPage from './pages/PlaceOrderPage'
-import OrderSuccessPage from './pages/OrderSuccessPage'
-import OrderDetails from './pages/OrderDetails'
-import AdminOrders from './pages/AdminOrders'
-import AdminProducts from './pages/AdminProducts'
-import AdminProductForm from './pages/AdminProductForm'
+import { Routes, Route } from "react-router-dom";
+import "./App.css";
+
+// Public pages
+import Home from "./pages/Home";
+import Products from "./pages/Products";
+import ProductDetail from "./pages/ProductDetail";
+import Cart from "./pages/Cart";
+import CheckoutPage from "./pages/CheckoutPage";
+import PlaceOrderPage from "./pages/PlaceOrderPage";
+import OrderSuccessPage from "./pages/OrderSuccessPage";
+import OrderDetails from "./pages/OrderDetails";
+import Login from "./pages/Login";
+
+// Admin pages
+import AdminOrders from "./pages/AdminOrders";
 import AdminProductList from "./pages/admin/AdminProductList";
 import AdminProductCreate from "./pages/admin/AdminProductCreate";
 import AdminProductEdit from "./pages/admin/AdminProductEdit";
 
+// Route protection
+import AdminRoute from "./components/AdminRoute";
+import Register from "./pages/Register";
+import CustomerDashboard from "./pages/CustomerDashboard";
+import AdminDashboard from "./pages/admin/AdminDashboard";
+import PrivateRoute from "./components/PrivateRoute";
 
 function App() {
-
   return (
-    <>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/products/:cate" element={<Products />} />
-        <Route path="/product/:id" element={<ProductDetail />} />
-        <Route path="/cart" element={<Cart />} />
-        <Route path="/checkout" element={<CheckoutPage />} />
-        <Route path="/placeorder" element={<PlaceOrderPage />} />
-        <Route path="/order-success/:id" element={<OrderSuccessPage />} />
-        <Route path="/order/user/:id" element={<OrderDetails admin={false} />} />
-        <Route path="/order/admin/:id" element={<OrderDetails admin={true} />} />
-        <Route path="/admin/orders" element={<AdminOrders />} />
-        <Route path="/admin/products" element={<AdminProducts />} />
-        <Route path="/admin/product/create" element={<AdminProductForm />} />
-        <Route path="/admin/product/:id" element={<AdminProductForm />} />
-        <Route path="/admin/products" element={<AdminProductList />} />
-        <Route path="/admin/product/create" element={<AdminProductCreate />} />
-        <Route path="/admin/product/:id/edit" element={<AdminProductEdit />} />
+    <Routes>
+      {/* ---------- PUBLIC ROUTES ---------- */}
+      <Route path="/" element={<Home />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/products/:cate" element={<Products />} />
+      <Route path="/product/:id" element={<ProductDetail />} />
+      <Route path="/cart" element={<Cart />} />
+      <Route path="/checkout" element={<CheckoutPage />} />
+      <Route path="/placeorder" element={<PlaceOrderPage />} />
+      <Route path="/order-success/:id" element={<OrderSuccessPage />} />
+      <Route path="/register" element={<Register />} />
+      
+      <Route
+        path="/dashboard"
+        element={
+          <PrivateRoute>
+            <CustomerDashboard />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/admin/dashboard"
+        element={
+          <AdminRoute>
+            <AdminDashboard />
+          </AdminRoute>
+        }
+      />
+      {/* User order details */}
+      <Route
+        path="/order/user/:id"
+        element={<OrderDetails admin={false} />}
+      />
 
+      {/* ---------- ADMIN ROUTES (PROTECTED) ---------- */}
+      <Route
+        path="/admin/orders"
+        element={
+          <AdminRoute>
+            <AdminOrders />
+          </AdminRoute>
+        }
+      />
 
+      <Route
+        path="/admin/products"
+        element={
+          <AdminRoute>
+            <AdminProductList />
+          </AdminRoute>
+        }
+      />
 
+      <Route
+        path="/admin/product/create"
+        element={
+          <AdminRoute>
+            <AdminProductCreate />
+          </AdminRoute>
+        }
+      />
 
+      <Route
+        path="/admin/product/:id/edit"
+        element={
+          <AdminRoute>
+            <AdminProductEdit />
+          </AdminRoute>
+        }
+      />
 
-
-      </Routes>
-    </>
-  )
+      {/* Admin order details */}
+      <Route
+        path="/order/admin/:id"
+        element={
+          <AdminRoute>
+            <OrderDetails admin={true} />
+          </AdminRoute>
+        }
+      />
+    </Routes>
+  );
 }
 
-export default App
+export default App;
