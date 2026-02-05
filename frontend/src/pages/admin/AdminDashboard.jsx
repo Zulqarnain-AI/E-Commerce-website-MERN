@@ -1,3 +1,5 @@
+import AdminProductList from "./AdminProductList";
+
 const AdminDashboard = () => {
   return (
     <div className="container">
@@ -8,6 +10,7 @@ const AdminDashboard = () => {
         <li>🧾 Manage Orders</li>
         <li>👥 Manage Users</li>
       </ul>
+      <AdminProductList />
     </div>
   );
 };
