@@ -26,7 +26,7 @@ const AdminProductCreate = () => {
       product
     );
 
-    navigate("/admin/products");
+    navigate("/admin/dashboard");
   };
 
   return (

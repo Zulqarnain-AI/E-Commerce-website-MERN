@@ -113,7 +113,7 @@ const OrderDetails = ({ admin }) => {
                     )}
                 </div> : "your oder is in process..."}
 
-                <Link to={!admin ? "/" : "/admin/orders"}>
+                <Link to={!admin ? "/" : "/admin/dashboard"}>
                     <button className="py-2 rounded bg-black text-white border w-20 text-center hover:cursor-pointer">
                         Done
                     </button>

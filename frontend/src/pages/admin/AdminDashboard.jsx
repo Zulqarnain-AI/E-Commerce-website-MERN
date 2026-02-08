@@ -1,16 +1,26 @@
+import { useState } from "react";
 import AdminProductList from "./AdminProductList";
+import AdminOrders from "../AdminOrders";
 
 const AdminDashboard = () => {
+  const [body,setBody] = useState(true)
+  function handleClick(){
+    setBody(!body)
+  }
   return (
-    <div className="container">
-      <h1>👑 Admin Dashboard</h1>
+    <div >
+      <div className="p-6">
+      <h1 className="text-center text-2xl font-bold">👑 Admin Dashboard </h1>
+      <button onClick={handleClick}  className="bg-black text-white px-4 py-2 rounded">
+          {body? "Order list":"Product list"}
+        </button>
+      </div>
 
-      <ul>
-        <li>📦 Manage Products</li>
-        <li>🧾 Manage Orders</li>
-        <li>👥 Manage Users</li>
-      </ul>
-      <AdminProductList />
+      {
+        body?<AdminProductList />:<AdminOrders />
+      }
+
+      
     </div>
   );
 };

@@ -22,11 +22,11 @@ const AdminOrders = () => {
 
   return (
     <>
-      <Navbar />
+      {/* <Navbar /> */}
 
       <div className="max-w-7xl mx-auto min-h-screen px-4 py-10">
         <h1 className="text-2xl font-bold mb-6">
-          Admin – Orders
+          List of Orders
         </h1>
 
         {loading ? (

@@ -29,12 +29,30 @@ const AdminProductEdit = () => {
   const submitHandler = async (e) => {
     e.preventDefault();
 
-    await axios.put(
-      `http://localhost:5000/api/products/${id}`,
-      product
-    );
+    const user = JSON.parse(localStorage.getItem("user"));
 
-    navigate("/admin/products");
+    if (!user?.token) {
+      navigate("/login");
+      return;
+    }
+
+    try {
+      await axios.put(
+        `http://localhost:5000/api/products/${id}`,
+        product,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${user.token}`,
+          },
+        }
+      );
+
+      navigate("/admin/dashboard");
+    } catch (error) {
+      console.error(error);
+      alert(error.response?.data?.message || "Failed to update product");
+    }
   };
 
   return (

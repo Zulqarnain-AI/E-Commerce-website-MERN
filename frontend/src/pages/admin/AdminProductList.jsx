@@ -15,11 +15,23 @@ const AdminProductList = () => {
   };
 
   const deleteHandler = async (id) => {
-    if (window.confirm("Delete this product?")) {
+    if (!window.confirm("Delete this product?")) return;
+
+    const user = JSON.parse(localStorage.getItem("user"));
+
+    try {
       await axios.delete(
-        `http://localhost:5000/api/products/${id}`
+        `http://localhost:5000/api/products/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${user?.token}`,
+          },
+        }
       );
       fetchProducts();
+    } catch (error) {
+      console.error(error);
+      alert(error.response?.data?.message || "Failed to delete product");
     }
   };
 
@@ -31,9 +43,7 @@ const AdminProductList = () => {
 
   return (
     <div className="p-6">
-        <Link to="/admin/orders" className="bg-black text-white px-4 py-2 rounded">
-          list of orders
-        </Link><br /><br />
+        
       <div className="flex justify-between mb-4">
         <h1 className="text-2xl font-bold">Products</h1>
         <Link
