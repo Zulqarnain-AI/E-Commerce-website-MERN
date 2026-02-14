@@ -24,6 +24,10 @@ import Register from "./pages/Register";
 import CustomerDashboard from "./pages/CustomerDashboard";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import PrivateRoute from "./components/PrivateRoute";
+// import CustomerDashboard from "./pages/CustomerDashboard";
+import Profile from "./pages/Profile";
+import Orders from "./pages/Orders";
+import CustomerRoute from "./components/CustomerRoute";
 
 function App() {
   return (
@@ -38,7 +42,7 @@ function App() {
       <Route path="/placeorder" element={<PlaceOrderPage />} />
       <Route path="/order-success/:id" element={<OrderSuccessPage />} />
       <Route path="/register" element={<Register />} />
-      
+
       <Route
         path="/dashboard"
         element={
@@ -107,6 +111,18 @@ function App() {
           </AdminRoute>
         }
       />
+      <Route
+        path="/dashboard"
+        element={
+          <CustomerRoute>
+            <CustomerDashboard />
+          </CustomerRoute>
+        }
+      >
+        <Route path="profile" element={<Profile />} />
+        <Route path="orders" element={<Orders />} />
+      </Route>
+
     </Routes>
   );
 }

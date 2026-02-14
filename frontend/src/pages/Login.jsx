@@ -12,18 +12,22 @@ const Login = () => {
 
   const submitHandler = async (e) => {
     e.preventDefault();
+    try {
+      const { data } = await axios.post(
+        "http://localhost:5000/api/users/login",
+        { email, password }
+      );
 
-    const { data } = await axios.post(
-      "http://localhost:5000/api/users/login",
-      { email, password }
-    );
+      login(data);
 
-    login(data);
-
-    if (data.isAdmin) { navigate("/admin/dashboard"); }
-    else {
-      console.log("data:",{data})
-      navigate("/dashboard");
+      if (data.isAdmin) {
+        navigate("/admin/dashboard");
+      } else {
+        navigate("/dashboard/profile");
+      }
+    } catch (error) {
+      console.error(error);
+      alert(error.response?.data?.message || "Login failed");
     }
   };
 
@@ -33,12 +37,16 @@ const Login = () => {
 
       <form onSubmit={submitHandler} className="space-y-3">
         <input
+          name="email"
+          value={email}
           placeholder="Email"
           className="w-full border p-2"
           onChange={(e) => setEmail(e.target.value)}
         />
         <input
+          name="password"
           type="password"
+          value={password}
           placeholder="Password"
           className="w-full border p-2"
           onChange={(e) => setPassword(e.target.value)}

@@ -1,9 +1,11 @@
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 
 const AdminProductCreate = () => {
   const navigate = useNavigate();
+  const { user } = useAuth();
 
   const [product, setProduct] = useState({
     name: "",
@@ -21,12 +23,19 @@ const AdminProductCreate = () => {
   const submitHandler = async (e) => {
     e.preventDefault();
 
-    await axios.post(
-      "http://localhost:5000/api/products",
-      product
-    );
+    try {
+      const config = {
+        headers: {
+          Authorization: `Bearer ${user?.token}`,
+        },
+      };
 
-    navigate("/admin/dashboard");
+      await axios.post("http://localhost:5000/api/products", product, config);
+      navigate("/admin/dashboard");
+    } catch (error) {
+      console.error(error);
+      alert(error.response?.data?.message || "Failed to create product");
+    }
   };
 
   return (
