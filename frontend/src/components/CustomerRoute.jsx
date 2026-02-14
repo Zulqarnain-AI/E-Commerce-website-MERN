@@ -1,11 +1,12 @@
 import { Navigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 const CustomerRoute = ({ children }) => {
-  const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+  const { user } = useAuth();
 
-  if (!userInfo) return <Navigate to="/login" />;
+  if (!user) return <Navigate to="/login" />;
 
-  if (userInfo.isAdmin) return <Navigate to="/admin/dashboard" />;
+  if (user.isAdmin) return <Navigate to="/admin/dashboard" />;
 
   return children;
 };

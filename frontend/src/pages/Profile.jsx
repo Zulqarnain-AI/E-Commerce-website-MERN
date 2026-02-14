@@ -1,29 +1,11 @@
-import { useEffect, useState } from "react";
-import axios from "axios";
+import { useEffect } from "react";
+import { useAuth } from "../context/AuthContext";
+import { Navigate } from "react-router-dom";
 
 const Profile = () => {
-  const [user, setUser] = useState(null);
+  const { user } = useAuth();
 
-  useEffect(() => {
-    const fetchProfile = async () => {
-      const userInfo = JSON.parse(localStorage.getItem("userInfo"));
-
-      const { data } = await axios.get(
-        "http://localhost:5000/api/users/profile",
-        {
-          headers: {
-            Authorization: `Bearer ${userInfo.token}`,
-          },
-        }
-      );
-
-      setUser(data);
-    };
-
-    fetchProfile();
-  }, []);
-
-  if (!user) return <p>Loading...</p>;
+  if (!user) return <Navigate to="/login" />;
 
   return (
     <div className="bg-white p-6 rounded shadow">

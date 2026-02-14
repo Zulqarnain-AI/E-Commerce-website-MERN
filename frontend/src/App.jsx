@@ -43,14 +43,7 @@ function App() {
       <Route path="/order-success/:id" element={<OrderSuccessPage />} />
       <Route path="/register" element={<Register />} />
 
-      <Route
-        path="/dashboard"
-        element={
-          <PrivateRoute>
-            <CustomerDashboard />
-          </PrivateRoute>
-        }
-      />
+      
       <Route
         path="/admin/dashboard"
         element={
