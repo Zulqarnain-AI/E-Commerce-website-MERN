@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../../services/api";
 import { Link } from "react-router-dom";
 
 const AdminProductList = () => {
@@ -7,9 +7,7 @@ const AdminProductList = () => {
   const [loading, setLoading] = useState(true);
 
   const fetchProducts = async () => {
-    const { data } = await axios.get(
-      "http://localhost:5000/api/products"
-    );
+    const { data } = await api.get("/api/products");
     setProducts(data);
     setLoading(false);
   };
@@ -17,17 +15,8 @@ const AdminProductList = () => {
   const deleteHandler = async (id) => {
     if (!window.confirm("Delete this product?")) return;
 
-    const user = JSON.parse(localStorage.getItem("user"));
-
     try {
-      await axios.delete(
-        `http://localhost:5000/api/products/${id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${user?.token}`,
-          },
-        }
-      );
+      await api.delete(`/api/products/${id}`);
       fetchProducts();
     } catch (error) {
       console.error(error);
@@ -36,56 +25,63 @@ const AdminProductList = () => {
   };
 
   useEffect(() => {
-    fetchProducts();
+    const loadProducts = async () => {
+      await fetchProducts();
+    };
+
+    void loadProducts();
   }, []);
 
   if (loading) return <p className="p-4">Loading...</p>;
 
   return (
     <div className="p-6">
-        
-      <div className="flex justify-between mb-4">
-        <h1 className="text-2xl font-bold">Products</h1>
+      <div className="mb-4 flex items-center justify-between gap-3">
+        <h1 className="text-2xl font-semibold tracking-tight text-slate-950">Products</h1>
         <Link
           to="/admin/product/create"
-          className="bg-black text-white px-4 py-2 rounded"
+          className="rounded-full bg-slate-950 px-4 py-2 text-sm font-semibold text-white"
         >
           + Add Product
         </Link>
       </div>
 
-      <table className="w-full border">
-        <thead className="bg-gray-100">
+      <div className="overflow-x-auto rounded-2xl border border-slate-200">
+      <table className="w-full min-w-[640px] text-sm">
+        <thead className="bg-slate-100 text-slate-700">
           <tr>
-            <th className="p-2 border">Name</th>
-            <th className="p-2 border">Price</th>
-            <th className="p-2 border">Actions</th>
+            <th className="border-b border-slate-200 p-3 text-left">Name</th>
+            <th className="border-b border-slate-200 p-3 text-left">Price</th>
+            <th className="border-b border-slate-200 p-3 text-left">Actions</th>
           </tr>
         </thead>
 
         <tbody>
           {products.map((product) => (
-            <tr key={product._id}>
-              <td className="p-2 border">{product.name}</td>
-              <td className="p-2 border">${product.price}</td>
-              <td className="p-2 border flex gap-3">
+            <tr key={product._id} className="border-b border-slate-100 text-slate-700">
+              <td className="p-3 font-medium text-slate-900">{product.name}</td>
+              <td className="p-3">${product.price}</td>
+              <td className="p-3">
+                <div className="flex gap-3">
                 <Link
                   to={`/admin/product/${product._id}/edit`}
-                  className="text-blue-600"
+                  className="font-semibold text-emerald-700"
                 >
                   Edit
                 </Link>
                 <button
                   onClick={() => deleteHandler(product._id)}
-                  className="text-red-600"
+                  className="font-semibold text-rose-600"
                 >
                   Delete
                 </button>
+                </div>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
+      </div>
     </div>
   );
 };

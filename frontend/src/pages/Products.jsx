@@ -1,33 +1,33 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import { useLocation, useParams } from "react-router-dom";
+import api from "../services/api";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import ProductCard from "../components/ProductCard";
 import Filters from "../components/Filters";
-import { useParams } from "react-router-dom";
 const Products = () => {
   const [products, setProducts] = useState([]);
-  const [price, setPrice] = useState(1000);
-  const [search, setSearch] = useState("");
+  const [price, setPrice] = useState(5000);
   const {cate} = useParams();
-  const [category, setCategory] = useState(cate);
+  const location = useLocation();
+  const [category, setCategory] = useState(cate === "All" ? "" : cate);
+  const [search, setSearch] = useState(
+    () => new URLSearchParams(location.search).get("keyword") || ""
+  );
+
   useEffect(() => {
     const fetchProducts = async () => {
-      const { data } = await axios.get(
-        "http://localhost:5000/api/products",
-        {
-          params: {
-            category,
-            maxPrice: price,
-            keyword: search,
-          },
-        }
-      );
+      const { data } = await api.get("/api/products", {
+        params: {
+          category,
+          maxPrice: price,
+          keyword: search,
+        },
+      });
       setProducts(data);
-      // setCategory(cate)
     };
 
-    fetchProducts();
+    void fetchProducts();
   }, [category, price, search]);
 
   return (
@@ -47,14 +47,21 @@ const Products = () => {
 
         {/* Products */}
         <div className="md:col-span-3">
+          <div className="mb-5 rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
+            <h1 className="text-2xl font-semibold tracking-tight text-slate-950">Explore products</h1>
+            <p className="mt-2 text-sm text-slate-600">
+              Search by keyword, filter by category, and buy new products instantly.
+            </p>
+
           {/* Search */}
           <input
             type="text"
             placeholder="Search products..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full border rounded px-4 py-2 mb-6"
+            className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 shadow-sm outline-none transition placeholder:text-slate-400 focus:border-emerald-500"
           />
+          </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {products.length > 0 ? (

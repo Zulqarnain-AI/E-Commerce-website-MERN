@@ -5,38 +5,38 @@ const ProductCard = ({ product }) => {
   const { addToCart } = useCart();
 
   return (
-    <div className="border rounded-lg shadow-sm hover:shadow-lg transition bg-white">
+    <article className="rounded-3xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-lg">
       <Link to={`/product/${product._id}`}>
         <img
           src={product.image}
           alt={product.name}
-          className="h-48 w-full object-cover rounded-t-lg"
+          className="h-56 w-full rounded-t-3xl object-cover"
         />
       </Link>
 
       <div className="p-4">
-        <h3 className="font-semibold text-lg truncate">
+        <h3 className="truncate text-lg font-semibold text-slate-950">
           {product.name}
         </h3>
 
-        <p className="text-gray-600 text-sm mt-1">
+        <p className="mt-1 text-sm text-slate-600">
           {product.category}
         </p>
 
-        <div className="flex justify-between items-center mt-3">
-          <span className="text-lg font-bold">
+        <div className="mt-3 flex items-center justify-between">
+          <span className="text-lg font-bold text-slate-950">
             ${product.price}
           </span>
 
           <button
             onClick={() => addToCart(product, 1)}
-            className="bg-black text-white px-3 py-1 rounded text-sm"
+            className="rounded-full bg-slate-950 px-4 py-2 text-sm font-semibold text-white transition hover:bg-slate-800"
           >
             Add to Cart
           </button>
         </div>
       </div>
-    </div>
+    </article>
   );
 };
 

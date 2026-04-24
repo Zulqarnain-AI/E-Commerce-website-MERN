@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import axios from "axios";
+import api from "../services/api";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 
@@ -19,8 +19,8 @@ const AdminProductForm = () => {
 
   useEffect(() => {
     if (id) {
-      axios
-        .get(`http://localhost:5000/api/products/${id}`)
+      api
+        .get(`/api/products/${id}`)
         .then(({ data }) => setProduct(data));
     }
   }, [id]);
@@ -29,15 +29,9 @@ const AdminProductForm = () => {
     e.preventDefault();
 
     if (id) {
-      await axios.put(
-        `http://localhost:5000/api/products/${id}`,
-        product
-      );
+      await api.put(`/api/products/${id}`, product);
     } else {
-      await axios.post(
-        "http://localhost:5000/api/products",
-        product
-      );
+      await api.post("/api/products", product);
     }
 
     navigate("/admin/products");

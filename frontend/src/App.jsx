@@ -1,4 +1,5 @@
 import { Routes, Route } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import "./App.css";
 
 // Public pages
@@ -28,6 +29,14 @@ import PrivateRoute from "./components/PrivateRoute";
 import Profile from "./pages/Profile";
 import Orders from "./pages/Orders";
 import CustomerRoute from "./components/CustomerRoute";
+import Settings from "./pages/Settings";
+import DashboardHome from "./pages/DashboardHome";
+
+const ProductsRoute = () => {
+  const location = useLocation();
+
+  return <Products key={`${location.pathname}${location.search}`} />;
+};
 
 function App() {
   return (
@@ -35,7 +44,7 @@ function App() {
       {/* ---------- PUBLIC ROUTES ---------- */}
       <Route path="/" element={<Home />} />
       <Route path="/login" element={<Login />} />
-      <Route path="/products/:cate" element={<Products />} />
+      <Route path="/products/:cate" element={<ProductsRoute />} />
       <Route path="/product/:id" element={<ProductDetail />} />
       <Route path="/cart" element={<Cart />} />
       <Route path="/checkout" element={<CheckoutPage />} />
@@ -112,8 +121,10 @@ function App() {
           </CustomerRoute>
         }
       >
+        <Route index element={<DashboardHome />} />
         <Route path="profile" element={<Profile />} />
         <Route path="orders" element={<Orders />} />
+        <Route path="settings" element={<Settings />} />
       </Route>
 
     </Routes>

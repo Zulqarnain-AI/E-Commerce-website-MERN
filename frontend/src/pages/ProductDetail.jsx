@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import axios from "axios";
+import api from "../services/api";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import QuantitySelector from "../components/QuantitySelector";
@@ -15,9 +15,7 @@ const ProductDetail = () => {
 
   useEffect(() => {
     const fetchProduct = async () => {
-      const { data } = await axios.get(
-        `http://localhost:5000/api/products/${id}`
-      );
+      const { data } = await api.get(`/api/products/${id}`);
       setProduct(data);
     };
 
@@ -32,14 +30,14 @@ const ProductDetail = () => {
     <>
       <Navbar />
 
-      <div className="max-w-7xl mx-auto px-4 py-10 grid grid-cols-1 md:grid-cols-2 gap-10">
+      <div className="mx-auto grid max-w-7xl grid-cols-1 gap-10 px-4 py-10 md:grid-cols-2">
 
         {/* IMAGE */}
         <div>
           <img
             src={product.image}
             alt={product.name}
-            className="w-full h-[400px] object-cover rounded-lg shadow"
+            className="h-[400px] w-full rounded-3xl object-cover shadow-xl"
           />
         </div>
 
@@ -47,15 +45,15 @@ const ProductDetail = () => {
         <div>
           <h1 className="text-3xl font-bold">{product.name}</h1>
 
-          <p className="text-gray-600 mt-2">
+          <p className="mt-2 text-slate-600">
             Category: {product.category}
           </p>
 
-          <p className="text-2xl font-semibold mt-4">
+          <p className="mt-4 text-2xl font-semibold text-slate-950">
             ${product.price}
           </p>
 
-          <p className="mt-4 text-gray-700 leading-relaxed">
+          <p className="mt-4 leading-relaxed text-slate-700">
             {product.description}
           </p>
 
@@ -83,7 +81,7 @@ const ProductDetail = () => {
           <button
             disabled={product.countInStock === 0}
             onClick={() => addToCart(product, qty)}
-            className="mt-6 w-full bg-black text-white py-3 rounded font-semibold disabled:bg-gray-400"
+            className="mt-6 w-full rounded-2xl bg-slate-950 py-3 font-semibold text-white transition hover:bg-slate-800 disabled:bg-slate-300"
           >
             Add to Cart
           </button>

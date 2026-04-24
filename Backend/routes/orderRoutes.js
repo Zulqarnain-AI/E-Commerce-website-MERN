@@ -4,14 +4,17 @@ import {
      getOrderById,
      getAllOrders,
      markOrderPaid,
-     markOrderDelivered
+     markOrderDelivered,
+     getMyOrders
 } from "../controllers/orderController.js";
+import { admin, protect } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 
-router.post("/", createOrder);
-router.get("/", getAllOrders);
-router.get("/:id", getOrderById);
-router.put("/:id/pay", markOrderPaid);
-router.put("/:id/deliver", markOrderDelivered);
+router.post("/", protect, createOrder);
+router.get("/myorders", protect, getMyOrders);
+router.get("/", protect, admin, getAllOrders);
+router.get("/:id", protect, getOrderById);
+router.put("/:id/pay", protect, markOrderPaid);
+router.put("/:id/deliver", protect, admin, markOrderDelivered);
 export default router;

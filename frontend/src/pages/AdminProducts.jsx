@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../services/api";
 import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
@@ -8,23 +8,23 @@ const AdminProducts = () => {
   const [products, setProducts] = useState([]);
 
   const fetchProducts = async () => {
-    const { data } = await axios.get(
-      "http://localhost:5000/api/products"
-    );
+    const { data } = await api.get("/api/products");
     setProducts(data);
   };
 
   const deleteHandler = async (id) => {
     if (window.confirm("Delete this product?")) {
-      await axios.delete(
-        `http://localhost:5000/api/products/${id}`
-      );
+      await api.delete(`/api/products/${id}`);
       fetchProducts();
     }
   };
 
   useEffect(() => {
-    fetchProducts();
+    const loadProducts = async () => {
+      await fetchProducts();
+    };
+
+    void loadProducts();
   }, []);
 
   return (
@@ -65,7 +65,7 @@ const AdminProducts = () => {
                 <td className="border p-3">{p.countInStock}</td>
                 <td className="border p-3 space-x-3">
                   <Link
-                    to={`/admin/product/${p._id}`}
+                    to={`/admin/product/${p._id}/edit`}
                     className="text-blue-600"
                   >
                     Edit

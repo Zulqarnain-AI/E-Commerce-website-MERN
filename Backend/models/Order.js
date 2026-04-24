@@ -2,6 +2,11 @@ import mongoose from "mongoose";
 
 const orderSchema = new mongoose.Schema(
   {
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
     orderItems: [
       {
         product: {
@@ -27,7 +32,6 @@ const orderSchema = new mongoose.Schema(
     itemsPrice: Number,
     shippingPrice: Number,
     totalPrice: Number,
-    //for order status
     isPaid: {
       type: Boolean,
       default: false,

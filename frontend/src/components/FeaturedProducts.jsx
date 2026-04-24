@@ -1,56 +1,80 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../services/api";
 import { useCart } from "../context/CartContext";
 import { Link } from "react-router-dom";
+
 const FeaturedProducts = () => {
   const [products, setProducts] = useState([]);
   const { addToCart } = useCart();
-  const [ disable, setDisable ] = useState(false)
+  const [busyIds, setBusyIds] = useState([]);
+
   useEffect(() => {
     const fetchProducts = async () => {
-      const { data } = await axios.get(
-        "http://localhost:5000/api/products?featured=true"
-      );
-      setProducts(data);
+      const { data } = await api.get("/api/products", {
+        params: { featured: true },
+      });
+
+      if (data.length > 0) {
+        setProducts(data);
+        return;
+      }
+
+      const fallback = await api.get("/api/products");
+      setProducts(fallback.data.slice(0, 6));
     };
     fetchProducts();
   }, []);
-  const handleButton = (product) => {
-    console.log(disable)
-    setDisable(true);
-    addToCart(product, 1);
-  }
-  return (
-    <div className="max-w-7xl mx-auto px-4 py-12">
-      <h2 className="text-2xl font-bold mb-6">Featured Products</h2>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {products.map(product => (
+  const handleButton = (product) => {
+    addToCart(product, 1);
+    setBusyIds((current) => [...current, product._id]);
+  };
+
+  return (
+    <section className="mx-auto max-w-7xl px-4 py-12">
+      <div className="mb-6 flex items-end justify-between gap-4">
+        <div>
+          <p className="text-xs font-semibold uppercase tracking-[0.24em] text-emerald-700">Curated Picks</p>
+          <h2 className="mt-2 text-3xl font-semibold tracking-tight text-slate-950">Featured products</h2>
+        </div>
+        <Link
+          to="/products/All"
+          className="rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:border-slate-300"
+        >
+          View all products
+        </Link>
+      </div>
+
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+        {products.map((product) => (
           <div
             key={product._id}
-            className="border rounded-lg p-4 shadow hover:shadow-lg"
+            className="rounded-3xl border border-slate-200 bg-white p-4 shadow-sm transition hover:shadow-lg"
           >
             <Link to={`/product/${product._id}`}>
               <img
                 src={product.image}
                 alt={product.name}
-                className="h-60 w-full object-cover rounded"
+                className="h-60 w-full rounded-2xl object-cover"
               />
             </Link>
-            <h3 className="mt-2 font-semibold">{product.name}</h3>
-            <p className="text-gray-600">${product.price}</p>
+            <h3 className="mt-3 font-semibold text-slate-950">{product.name}</h3>
+            <p className="mt-1 text-sm text-slate-500">{product.category}</p>
+            <p className="mt-2 text-lg font-semibold text-slate-950">${product.price}</p>
 
-            <button disabled={disable}
-              onClick={() => { handleButton(product) }}
-              className="mt-3 w-full bg-black text-white py-2 rounded hover:cursor-pointer disabled:bg-gray-400 disabled:cursor-not-allowed disabled:opacity-50 "
+            <button
+              disabled={busyIds.includes(product._id)}
+              onClick={() => {
+                handleButton(product);
+              }}
+              className="mt-3 w-full rounded-2xl bg-slate-950 py-2 font-semibold text-white transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:bg-slate-300"
             >
-              {disable ? "Item is added" : "Add to Cart"}
+              {busyIds.includes(product._id) ? "Added to cart" : "Add to Cart"}
             </button>
-
           </div>
         ))}
       </div>
-    </div>
+    </section>
   );
 };
 

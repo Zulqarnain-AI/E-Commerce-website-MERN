@@ -3,7 +3,26 @@ import Product from "../models/Products.js";
 // 1️⃣ GET ALL PRODUCTS
 export const getProducts = async (req, res) => {
   try {
-    const products = await Product.find({});
+    const { category, maxPrice, keyword, featured } = req.query;
+    const query = {};
+
+    if (category && category !== "All") {
+      query.category = category;
+    }
+
+    if (maxPrice) {
+      query.price = { $lte: Number(maxPrice) };
+    }
+
+    if (keyword) {
+      query.name = { $regex: keyword, $options: "i" };
+    }
+
+    if (featured === "true") {
+      query.isFeatured = true;
+    }
+
+    const products = await Product.find(query);
     res.json(products);
   } catch (error) {
     res.status(500).json({ message: error.message });

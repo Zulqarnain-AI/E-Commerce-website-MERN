@@ -11,8 +11,10 @@ const Filters = ({ category, setCategory, price, setPrice }) => {
           Category
         </label>
         <select
-          value={category}
-          onChange={(e) => setCategory(e.target.value)}
+          value={category || "All"}
+          onChange={(e) =>
+            setCategory(e.target.value === "All" ? "" : e.target.value)
+          }
           className="w-full border rounded px-2 py-1"
         >
           {allCategories.map((cat) => (
@@ -30,7 +32,7 @@ const Filters = ({ category, setCategory, price, setPrice }) => {
         <input
           type="range"
           min="0"
-          max="1000"
+          max="5000"
           value={price}
           onChange={(e) => setPrice(e.target.value)}
           className="w-full"

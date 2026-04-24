@@ -1,35 +1,27 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import axios from "axios";
+import api from "../services/api";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 
 const OrderDetails = ({ admin }) => {
     const { id } = useParams();
     const [order, setOrder] = useState(null);
-    const [user_type, setUser_type] = useState("")
     useEffect(() => {
         const fetchOrder = async () => {
-            const { data } = await axios.get(
-                `http://localhost:5000/api/orders/${id}`
-            );
+            const { data } = await api.get(`/api/orders/${id}`);
             setOrder(data);
-            setUser_type(admin)
         };
 
         fetchOrder();
     }, [id]);
     const markPaidHandler = async () => {
-        await axios.put(
-            `http://localhost:5000/api/orders/${id}/pay`
-        );
+        await api.put(`/api/orders/${id}/pay`);
         window.location.reload();
     };
 
     const markDeliveredHandler = async () => {
-        await axios.put(
-            `http://localhost:5000/api/orders/${id}/deliver`
-        );
+        await api.put(`/api/orders/${id}/deliver`);
         window.location.reload();
     };
     if (!order) return <p className="text-center mt-20">Loading...</p>;

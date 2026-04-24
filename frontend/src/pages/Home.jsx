@@ -6,13 +6,17 @@ import Footer from "../components/Footer";
 
 const Home = () => {
   return (
-    <>
+    <main className="min-h-screen">
       <Navbar />
       <HeroSection />
-      <Categories />
-      <FeaturedProducts />
+      <section id="categories">
+        <Categories />
+      </section>
+      <section id="featured">
+        <FeaturedProducts />
+      </section>
       <Footer />
-    </>
+    </main>
   );
 };
 

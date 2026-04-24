@@ -16,19 +16,15 @@ const Cart = () => {
   return (
     <>
     <div className="relative">
-      <div className='fixed top-0 left-0 w-full '>
+      <Navbar />
 
-      <Navbar  />
-      </div>
-
-
-      <div className="min-h-screen max-w-7xl mx-auto px-4 py-10">
+      <div className="mx-auto min-h-screen max-w-7xl px-4 py-10">
         <h1 className="text-2xl font-bold mb-6">Shopping Cart</h1>
 
         {cartItems.length === 0 ? (
           <p>
             Your cart is empty.{" "}
-            <Link to="/products/All" className="text-blue-600">
+              <Link to="/products/All" className="font-semibold text-emerald-700">
               Go Shopping
             </Link>
           </p>
@@ -43,7 +39,7 @@ const Cart = () => {
             </div>
 
             {/* Summary */}
-            <div className="border rounded-lg p-6 shadow">
+            <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
               <h2 className="font-bold text-lg mb-4">Summary</h2>
               <p>Total Items: {cartItems.length}</p>
               <p className="text-xl font-semibold mt-2">
@@ -52,7 +48,7 @@ const Cart = () => {
 
               <button
               onClick={() => navigate("/checkout")}
-              className="bg-black text-white px-6 py-3 rounded"
+              className="mt-4 rounded-2xl bg-slate-950 px-6 py-3 font-semibold text-white"
             >
               Proceed to Checkout
             </button>
